@@ -19,7 +19,64 @@ class MyApp extends StatelessWidget {
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: BarChartSample1(),
-      home: BarChartExample3(),
+      home: DashBoard(),
+    );
+  }
+}
+
+class DashBoard extends StatefulWidget {
+  const DashBoard({Key? key}) : super(key: key);
+
+  @override
+  State<DashBoard> createState() => _DashBoardState();
+}
+
+class _DashBoardState extends State<DashBoard> with TickerProviderStateMixin {
+  List<Widget> listOfChart = const [
+    BarChartExample(),
+    BarChartExample2(),
+    BarChartExample3(),
+    LineChartExample(),
+    PieChartExample()
+  ];
+  late TabController tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(
+      length: 5,
+      initialIndex: 0,
+      vsync: this,
+    );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        bottom: TabBar(controller: tabController, tabs: const [
+          Tab(
+            icon: Icon(Icons.bar_chart),
+          ),
+          Tab(
+            icon: Icon(Icons.bar_chart),
+          ),
+          Tab(
+            icon: Icon(Icons.bar_chart),
+          ),
+          Tab(
+            icon: Icon(Icons.stacked_line_chart),
+          ),
+          Tab(
+            icon: Icon(Icons.pie_chart),
+          ),
+        ]),
+      ),
+      body: TabBarView(
+        controller: tabController,
+        children: listOfChart,
+      ),
     );
   }
 }
@@ -43,7 +100,7 @@ class _BarChartExampleState extends State<BarChartExample> {
         child: Column(
           children: [
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
             Card(
               shape: RoundedRectangleBorder(
@@ -210,7 +267,7 @@ class _BarChartExampleState extends State<BarChartExample> {
           colors: isTouched ? [Colors.yellow] : [barColor],
           width: width,
           borderSide: isTouched
-              ? BorderSide(color: Colors.yellow, width: 1)
+              ? const BorderSide(color: Colors.yellow, width: 1)
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
@@ -262,7 +319,7 @@ class _BarChartExample2State extends State<BarChartExample2> {
         child: Column(
           children: [
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
             Card(
               shape: RoundedRectangleBorder(
@@ -439,16 +496,13 @@ class _BarChartExample3State extends State<BarChartExample3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Chart Screen'),
-      ),
       body: SizedBox(
         height: 700,
         width: 500,
         child: Column(
           children: [
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
             Card(
               shape: RoundedRectangleBorder(
@@ -614,266 +668,525 @@ class _BarChartExample3State extends State<BarChartExample3> {
       ];
 }
 
+class LineChartExample extends StatefulWidget {
+  const LineChartExample({
+    Key? key,
+  }) : super(key: key);
 
+  @override
+  State<LineChartExample> createState() => _LineChartExampleState();
+}
 
+class _LineChartExampleState extends State<LineChartExample> {
+  @override
+  Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            // if (false)
+            //   Container(
+            //     height: 600,
+            //     padding: EdgeInsets.all(20),
+            //     color: Colors.grey,
+            //     child: BarChart(
+            //       BarChartData(
+            //         maxY: 100,
+            //         minY: 0,
+            //         barGroups: [
+            //           BarChartGroupData(
+            //             x: 50,
+            //             barRods: [
+            //               BarChartRodData(y: 10, width: 3),
+            //               BarChartRodData(y: 20, width: 3),
+            //               BarChartRodData(
+            //                 y: 30,
+            //                 width: 3,
+            //                 backDrawRodData: BackgroundBarChartRodData(
+            //                   colors: [Colors.yellow, Colors.green],
+            //                   show: true,
+            //                   y: 70,
+            //                 ),
+            //                 rodStackItems: [
+            //                   BarChartRodStackItem(
+            //                     10,
+            //                     40,
+            //                     Colors.purple,
+            //                   )
+            //                 ],
+            //               ),
+            //               BarChartRodData(
+            //                 y: 40,
+            //                 width: 12,
+            //                 backDrawRodData: BackgroundBarChartRodData(
+            //                   colors: [Colors.white],
+            //                   show: true,
+            //                   y: 100,
+            //                 ),
+            //               ),
+            //               BarChartRodData(y: 50, width: 3),
+            //               BarChartRodData(y: 60, width: 3),
+            //               BarChartRodData(y: 70, width: 3),
+            //               BarChartRodData(y: 80, width: 3),
+            //               BarChartRodData(y: 90, width: 3),
+            //             ],
+            //             barsSpace: 20,
+            //           ),
+            //           BarChartGroupData(
+            //             x: 10,
+            //             barRods: [
+            //               BarChartRodData(y: 9, width: 3, colors: [Colors.red]),
+            //               BarChartRodData(
+            //                 y: 19,
+            //                 width: 3,
+            //                 colors: [Colors.red],
+            //               ),
+            //             ],
+            //             barsSpace: 20,
+            //           ),
+            //         ],
+            //         // groupsSpace: 20,
+            //         gridData: FlGridData(
+            //           show: true,
+            //         ),
+            //         titlesData: FlTitlesData(
+            //           rightTitles: SideTitles(showTitles: false),
+            //           topTitles: SideTitles(showTitles: false),
+            //           bottomTitles: SideTitles(
+            //             showTitles: true,
+            //             getTextStyles: (context, value) => const TextStyle(
+            //                 color: Colors.white,
+            //                 fontWeight: FontWeight.bold,
+            //                 fontSize: 14),
+            //             margin: 16,
+            //             getTitles: (double value) {
+            //               switch (value.toInt()) {
+            //                 case 0:
+            //                   return 'M';
+            //                 case 1:
+            //                   return 'T';
+            //                 case 2:
+            //                   return 'W';
+            //                 case 3:
+            //                   return 'T';
+            //                 case 4:
+            //                   return 'F';
+            //                 case 5:
+            //                   return 'S';
+            //                 case 6:
+            //                   return 'S';
+            //                 default:
+            //                   return '';
+            //               }
+            //             },
+            //           ),
+            //         ),
+            //       ),
 
-// class MyHomePage extends StatefulWidget {
-//   const MyHomePage({Key? key, required this.title}) : super(key: key);
+            //       swapAnimationDuration:
+            //           Duration(milliseconds: 150), // Optional
+            //       swapAnimationCurve: Curves.linear,
+            //     ),
+            //   ),
+            const SizedBox(
+              height: 30,
+            ),
+            //line chart
+            if (true)
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                color: const Color(0xff81e5cd),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      'Line Chart Example',
+                      style: TextStyle(
+                          color: Color(0xff0f4a3c),
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 500,
+                      padding: const EdgeInsets.all(20),
+                      color: const Color(0xff81e5cd),
+                      child: LineChart(
+                        LineChartData(
+                          maxX: 100,
+                          maxY: 100,
+                          minX: 0,
+                          minY: 0,
+                          titlesData: FlTitlesData(
+                              show: true,
+                              bottomTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 10,
+                                getTextStyles: (context, value) =>
+                                    const TextStyle(
+                                  color: Colors.black,
+                                ),
+                                getTitles: (value) {
+                                  switch (value.toInt()) {
+                                    case 20:
+                                      return 'Fab';
+                                    case 40:
+                                      return 'Mar';
+                                    case 60:
+                                      return 'Apr';
+                                    case 80:
+                                      return 'May';
+                                    case 100:
+                                      return 'Jun';
+                                    default:
+                                      return 'Jan';
+                                  }
+                                },
+                              ),
+                              leftTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 25,
+                                getTextStyles: (context, value) =>
+                                    const TextStyle(
+                                  color: Colors.black,
+                                ),
+                                getTitles: (value) {
+                                  return value.toInt().toString();
+                                },
+                                // that define margin between between value and chart
+                                margin: 5,
+                              ),
+                              topTitles: SideTitles(
+                                showTitles: false,
+                              ),
+                              rightTitles: SideTitles(showTitles: false)),
+                          borderData: FlBorderData(
+                            border: Border.all(color: Colors.red),
+                          ),
+                          gridData: FlGridData(
+                            show: true,
+                            horizontalInterval: 10,
+                            getDrawingHorizontalLine: (line) {
+                              return FlLine(
+                                color: Colors.red,
+                                strokeWidth: 1,
+                                dashArray: [5],
+                              );
+                            },
+                            getDrawingVerticalLine: (line) {
+                              return FlLine(
+                                color: Colors.red,
+                                strokeWidth: 1,
+                                dashArray: [5],
+                              );
+                            },
+                          ),
+                          lineBarsData: [
+                            LineChartBarData(
+                              spots: const [
+                                FlSpot(0, 0),
+                                FlSpot(20, 20),
+                                FlSpot(30, 10),
+                                FlSpot(50, 40),
+                                FlSpot(60, 20),
+                                FlSpot(80, 30),
+                                FlSpot(100, 10),
+                              ],
+                              isCurved: true,
+                              colors: const [
+                                Color(0xFFffafcc),
+                                Color(0xFFa2d2ff),
+                              ],
+                              barWidth: 2,
+                              belowBarData: BarAreaData(
+                                show: true,
+                                colors: [
+                                  const Color(0xFFffafcc).withOpacity(0.5),
+                                  const Color(0xFFa2d2ff).withOpacity(0.5),
+                                ],
+                              ),
+                              dotData: FlDotData(show: false),
+                            ),
+                            LineChartBarData(
+                              spots: const [
+                                FlSpot(0, 50),
+                                FlSpot(20, 40),
+                                FlSpot(50, 60),
+                                FlSpot(70, 60),
+                                FlSpot(90, 40),
+                                FlSpot(100, 50),
+                              ],
+                              // aboveBarData: BarAreaData(
+                              //   show: true,
+                              //   colors: [
+                              //     Color(0xFFffafcc).withOpacity(0.5),
+                              //     Color(0xFFa2d2ff).withOpacity(0.5),
+                              //   ],
+                              // ),
+                              isCurved: true,
+                              colors: const [
+                                Color(0xFFffafcc),
+                                Color(0xFFa2d2ff),
+                              ],
+                              barWidth: 2,
+                              dotData: FlDotData(show: false),
+                            ),
+                          ],
+                        ),
 
-//   final String title;
+                        swapAnimationDuration:
+                            const Duration(milliseconds: 150), // Optional
+                        swapAnimationCurve: Curves.linear, // Optional
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-//   @override
-//   State<MyHomePage> createState() => _MyHomePageState();
-// }
+class PieChartExample extends StatefulWidget {
+  const PieChartExample({Key? key}) : super(key: key);
 
-// class _MyHomePageState extends State<MyHomePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     final Size size = MediaQuery.of(context).size;
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Flutter Chart'),
-//       ),
-//       body: Column(
-//         children: [
-//           Container(
-//             height: size.height - 150,
-//             padding: EdgeInsets.all(20),
-//             color: Colors.grey,
-//             child: BarChart(
-//               BarChartData(
-//                 maxY: 100,
-//                 minY: 0,
-//                 barGroups: [
-//                   BarChartGroupData(
-//                     x: 50,
-//                     barRods: [
-//                       BarChartRodData(y: 10, width: 3),
-//                       BarChartRodData(y: 20, width: 3),
-//                       BarChartRodData(
-//                         y: 30,
-//                         width: 3,
-//                         backDrawRodData: BackgroundBarChartRodData(
-//                           colors: [Colors.yellow, Colors.green],
-//                           show: true,
-//                           y: 70,
-//                         ),
-//                         rodStackItems: [
-//                           BarChartRodStackItem(
-//                             10,
-//                             40,
-//                             Colors.purple,
-//                           )
-//                         ],
-//                       ),
-//                       BarChartRodData(
-//                         y: 40,
-//                         width: 12,
-//                         backDrawRodData: BackgroundBarChartRodData(
-//                           colors: [Colors.white],
-//                           show: true,
-//                           y: 100,
-//                         ),
-//                       ),
-//                       BarChartRodData(y: 50, width: 3),
-//                       BarChartRodData(y: 60, width: 3),
-//                       BarChartRodData(y: 70, width: 3),
-//                       BarChartRodData(y: 80, width: 3),
-//                       BarChartRodData(y: 90, width: 3),
-//                     ],
-//                     barsSpace: 20,
-//                   ),
-//                   BarChartGroupData(
-//                     x: 10,
-//                     barRods: [
-//                       BarChartRodData(y: 9, width: 3, colors: [Colors.red]),
-//                       BarChartRodData(
-//                         y: 19,
-//                         width: 3,
-//                         colors: [Colors.red],
-//                       ),
-//                     ],
-//                     barsSpace: 20,
-//                   ),
-//                 ],
-//                 // groupsSpace: 20,
-//                 gridData: FlGridData(
-//                   show: true,
-//                 ),
-//                 titlesData: FlTitlesData(
-//                   rightTitles: SideTitles(showTitles: false),
-//                   topTitles: SideTitles(showTitles: false),
-//                   bottomTitles: SideTitles(
-//                     showTitles: true,
-//                     getTextStyles: (context, value) => const TextStyle(
-//                         color: Colors.white,
-//                         fontWeight: FontWeight.bold,
-//                         fontSize: 14),
-//                     margin: 16,
-//                     getTitles: (double value) {
-//                       switch (value.toInt()) {
-//                         case 0:
-//                           return 'M';
-//                         case 1:
-//                           return 'T';
-//                         case 2:
-//                           return 'W';
-//                         case 3:
-//                           return 'T';
-//                         case 4:
-//                           return 'F';
-//                         case 5:
-//                           return 'S';
-//                         case 6:
-//                           return 'S';
-//                         default:
-//                           return '';
-//                       }
-//                     },
-//                   ),
-//                 ),
-//               ),
+  @override
+  _PieChartExampleState createState() => _PieChartExampleState();
+}
 
-//               swapAnimationDuration: Duration(milliseconds: 150), // Optional
-//               swapAnimationCurve: Curves.linear,
-//             ),
-//           ),
-//           //line chart
-//           if (false)
-//             Container(
-//               height: 600,
-//               padding: EdgeInsets.all(20),
-//               color: Colors.grey,
-//               child: LineChart(
-//                 LineChartData(
-//                   maxX: 100,
-//                   maxY: 100,
-//                   minX: 0,
-//                   minY: 0,
-//                   titlesData: FlTitlesData(
-//                       show: true,
-//                       bottomTitles: SideTitles(
-//                         showTitles: true,
-//                         reservedSize: 10,
-//                         getTextStyles: (context, value) => const TextStyle(
-//                           color: Colors.black,
-//                         ),
-//                         getTitles: (value) {
-//                           switch (value.toInt()) {
-//                             case 20:
-//                               return 'Fab';
-//                             case 40:
-//                               return 'Mar';
-//                             case 60:
-//                               return 'Apr';
-//                             case 80:
-//                               return 'May';
-//                             case 100:
-//                               return 'Jun';
-//                             default:
-//                               return 'Jan';
-//                           }
-//                         },
-//                       ),
-//                       leftTitles: SideTitles(
-//                         showTitles: true,
-//                         reservedSize: 25,
-//                         getTextStyles: (context, value) => const TextStyle(
-//                           color: Colors.black,
-//                         ),
-//                         getTitles: (value) {
-//                           return value.toInt().toString();
-//                         },
-//                         // that define margin between between value and chart
-//                         margin: 5,
-//                       ),
-//                       topTitles: SideTitles(
-//                         showTitles: false,
-//                       ),
-//                       rightTitles: SideTitles(showTitles: false)),
-//                   borderData: FlBorderData(
-//                     border: Border.all(color: Colors.red),
-//                   ),
-//                   gridData: FlGridData(
-//                     show: true,
-//                     horizontalInterval: 10,
-//                     getDrawingHorizontalLine: (line) {
-//                       return FlLine(
-//                         color: Colors.red,
-//                         strokeWidth: 1,
-//                         dashArray: [5],
-//                       );
-//                     },
-//                     getDrawingVerticalLine: (line) {
-//                       return FlLine(
-//                         color: Colors.red,
-//                         strokeWidth: 1,
-//                         dashArray: [5],
-//                       );
-//                     },
-//                   ),
-//                   lineBarsData: [
-//                     LineChartBarData(
-//                       spots: [
-//                         FlSpot(0, 0),
-//                         FlSpot(20, 20),
-//                         FlSpot(30, 10),
-//                         FlSpot(50, 40),
-//                         FlSpot(60, 20),
-//                         FlSpot(80, 30),
-//                         FlSpot(100, 10),
-//                       ],
-//                       isCurved: true,
-//                       colors: [
-//                         Color(0xFFffafcc),
-//                         Color(0xFFa2d2ff),
-//                       ],
-//                       barWidth: 2,
-//                       belowBarData: BarAreaData(
-//                         show: true,
-//                         colors: [
-//                           Color(0xFFffafcc).withOpacity(0.5),
-//                           Color(0xFFa2d2ff).withOpacity(0.5),
-//                         ],
-//                       ),
-//                       dotData: FlDotData(show: false),
-//                     ),
-//                     LineChartBarData(
-//                       spots: [
-//                         FlSpot(0, 50),
-//                         FlSpot(20, 40),
-//                         FlSpot(50, 60),
-//                         FlSpot(70, 60),
-//                         FlSpot(90, 40),
-//                         FlSpot(100, 50),
-//                       ],
-//                       // aboveBarData: BarAreaData(
-//                       //   show: true,
-//                       //   colors: [
-//                       //     Color(0xFFffafcc).withOpacity(0.5),
-//                       //     Color(0xFFa2d2ff).withOpacity(0.5),
-//                       //   ],
-//                       // ),
-//                       isCurved: true,
-//                       colors: [
-//                         Color(0xFFffafcc),
-//                         Color(0xFFa2d2ff),
-//                       ],
-//                       barWidth: 2,
-//                       dotData: FlDotData(show: false),
-//                     ),
-//                   ],
-//                 ),
+class _PieChartExampleState extends State<PieChartExample> {
+  int touchedIndex = -1;
 
-//                 swapAnimationDuration: Duration(milliseconds: 150), // Optional
-//                 swapAnimationCurve: Curves.linear, // Optional
-//               ),
-//             ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                indicator(
+                  color: const Color(0xff0293ee),
+                  text: 'One',
+                  isSquare: false,
+                  size: touchedIndex == 0 ? 18 : 16,
+                  textColor: touchedIndex == 0 ? Colors.black : Colors.grey,
+                ),
+                indicator(
+                  color: const Color(0xfff8b250),
+                  text: 'Two',
+                  isSquare: false,
+                  size: touchedIndex == 1 ? 18 : 16,
+                  textColor: touchedIndex == 1 ? Colors.black : Colors.grey,
+                ),
+                indicator(
+                  color: const Color(0xff845bef),
+                  text: 'Three',
+                  isSquare: false,
+                  size: touchedIndex == 2 ? 18 : 16,
+                  textColor: touchedIndex == 2 ? Colors.black : Colors.grey,
+                ),
+                indicator(
+                  color: const Color(0xff13d38e),
+                  text: 'Four',
+                  isSquare: false,
+                  size: touchedIndex == 3 ? 18 : 16,
+                  textColor: touchedIndex == 3 ? Colors.black : Colors.grey,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 18,
+            ),
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              color: const Color(0xff81e5cd),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      'Pie Chart Example',
+                      style: TextStyle(
+                          color: Color(0xff0f4a3c),
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      height: 300,
+                      width: 500,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: PieChart(
+                          PieChartData(
+                              pieTouchData: PieTouchData(touchCallback:
+                                  (FlTouchEvent event, pieTouchResponse) {
+                                setState(() {
+                                  if (!event.isInterestedForInteractions ||
+                                      pieTouchResponse == null ||
+                                      pieTouchResponse.touchedSection == null) {
+                                    touchedIndex = -1;
+                                    return;
+                                  }
+                                  touchedIndex = pieTouchResponse
+                                      .touchedSection!.touchedSectionIndex;
+                                });
+                              }),
+                              startDegreeOffset: 180,
+                              borderData: FlBorderData(
+                                show: false,
+                              ),
+                              sectionsSpace: 1,
+                              centerSpaceRadius: 0,
+                              sections: showingSections()),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget indicator(
+      {required Color color,
+      required String text,
+      required bool isSquare,
+      required int size,
+      required Color textColor}) {
+    return SizedBox.fromSize(
+      child: Row(
+        children: [
+          Container(
+            height: size.toDouble(),
+            width: size.toDouble(),
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 4,
+          ),
+          Text(text),
+        ],
+      ),
+    );
+  }
+
+  List<PieChartSectionData> showingSections() {
+    return List.generate(
+      4,
+      (i) {
+        final isTouched = i == touchedIndex;
+        final opacity = isTouched ? 1.0 : 0.6;
+
+        const color0 = Color(0xff0293ee);
+        const color1 = Color(0xfff8b250);
+        const color2 = Color(0xff845bef);
+        const color3 = Color(0xff13d38e);
+
+        switch (i) {
+          case 0:
+            return PieChartSectionData(
+              color: color0.withOpacity(opacity),
+              value: 25,
+              title: '',
+              radius: 80,
+              titleStyle: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff044d7c)),
+              titlePositionPercentageOffset: 0.55,
+              borderSide: isTouched
+                  ? const BorderSide(color: color0, width: 6)
+                  : BorderSide(color: color0.withOpacity(0)),
+            );
+          case 1:
+            return PieChartSectionData(
+              color: color1.withOpacity(opacity),
+              value: 25,
+              title: '',
+              radius: 65,
+              titleStyle: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff90672d)),
+              titlePositionPercentageOffset: 0.55,
+              borderSide: isTouched
+                  ? const BorderSide(color: color1, width: 6)
+                  : BorderSide(color: color2.withOpacity(0)),
+            );
+          case 2:
+            return PieChartSectionData(
+              color: color2.withOpacity(opacity),
+              value: 25,
+              title: '',
+              radius: 60,
+              titleStyle: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff4c3788)),
+              titlePositionPercentageOffset: 0.6,
+              borderSide: isTouched
+                  ? const BorderSide(color: color2, width: 6)
+                  : BorderSide(color: color2.withOpacity(0)),
+            );
+          case 3:
+            return PieChartSectionData(
+              color: color3.withOpacity(opacity),
+              value: 25,
+              title: '',
+              radius: 70,
+              titleStyle: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff0c7f55)),
+              titlePositionPercentageOffset: 0.55,
+              borderSide: isTouched
+                  ? const BorderSide(color: color3, width: 6)
+                  : BorderSide(color: color2.withOpacity(0)),
+            );
+          default:
+            throw Error();
+        }
+      },
+    );
+  }
+}
 
 // class BarChartSample1 extends StatefulWidget {
 //   final List<Color> availableColors = const [
